@@ -1,4 +1,15 @@
 import json
+import logging
+
+logger = logging.getLogger('run.config')
+_default_config = {'db': {'ip': '192.168.2.100',
+                          'port': 6379,
+                          'index': 0,
+                          'charset': 'utf-8',
+                          'decode_responses': 'True',
+                          'url_ttl': 100},
+                   'server_http': {'ip': '127.0.0.1',
+                                   'port': 8080}}
 
 
 class Dict(dict):
@@ -26,6 +37,12 @@ class Configuration(object):
 
     @staticmethod
     def load_json(path: str):
-        with open(path, "r") as f:
-            result = Configuration.__load__(json.loads(f.read()))
+        try:
+            with open(path, "r") as f:
+                logger.debug(f"Read configuration from file {path}")
+                result = Configuration.__load__(json.loads(f.read()))
+        except FileExistsError:
+            logger.warning(f"Failed to read configuration from file {path}. "
+                           f"Server will be started with default parameters ")
+            result = _default_config
         return result
