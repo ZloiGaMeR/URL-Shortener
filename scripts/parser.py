@@ -33,20 +33,14 @@ def create_parse_args():
                                                         'указанный лог файл,'
                                                         'с указанным уровнем логирования')
     loging_on_group = loging_on_parser.add_argument_group(title='Параметры')
-    loging_on_group.add_argument('-path', '-p', default="Logs/log.log",
+    loging_on_group.add_argument('-path', '-p', default=None,
                                  help='Путь до файла логов',
                                  metavar="ПУТЬ")
     loging_on_group.add_argument('--level', '-l',
                                  choices=['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTSET'],
-                                 default='INFO',
+                                 default='DEBUG',
                                  help='Уровень ведения журнала',
                                  metavar="Уровень"
                                  )
     loging_on_group.add_argument('--help', '-h', action='help', help='Справка')
     return parser
-
-
-if __name__ == '__main__':
-    parser = create_parse_args()
-    namespace = parser.parse_args()
-    print(namespace)

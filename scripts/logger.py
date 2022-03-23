@@ -10,8 +10,3 @@ def logger_init(name, level="INFO", filename=None):
                         filemode='a')
     logger = logging.getLogger(name)
     return logger
-
-
-if __name__ == '__main__':
-    logger = logger_init("main", "INFO")
-    logger.info("test message")
