@@ -18,21 +18,21 @@ def create_parse_args():
                               help='Вывести номер версии',
                               version=f'%(prog)s {version}')
     parent_group.add_argument('--configuration', '-c',
-                              required=True,
                               type=argparse.FileType(mode='r'),
+                              default='./etc/config.json',
                               help='Путь к файлу конфигурации сервера',
                               metavar='ПУТЬ')
     subparser = parser.add_subparsers(dest='command',
                                       title='Возможные команды',
                                       description='Команды, которые должны быть в качестве параметра %(prog)s')
-    loging_on_parser = subparser.add_parser('Loging',
-                                            add_help=False,
-                                            help='Запуск сервера с поддержкой логов',
-                                            description='Запуск сервера с поддержкой логов.'
-                                                        'В этом режиме запись логов осуществляется в '
-                                                        'указанный лог файл,'
-                                                        'с указанным уровнем логирования')
-    loging_on_group = loging_on_parser.add_argument_group(title='Параметры')
+    logging_on_parser = subparser.add_parser('Logging',
+                                             add_help=False,
+                                             help='Запуск сервера с поддержкой логов',
+                                             description='Запуск сервера с поддержкой логов.'
+                                                         'В этом режиме запись логов осуществляется в '
+                                                         'указанный лог файл,'
+                                                         'с указанным уровнем логирования')
+    loging_on_group = logging_on_parser.add_argument_group(title='Параметры')
     loging_on_group.add_argument('-path', '-p', default=None,
                                  help='Путь до файла логов',
                                  metavar="ПУТЬ")

@@ -1,8 +1,8 @@
-from http.server import BaseHTTPRequestHandler
 import base64
-import random
 import logging
+import random
 import re
+from http.server import BaseHTTPRequestHandler
 
 regex = re.compile(
         r'^(?:http|ftp)s?://' # http:// or https://
@@ -12,7 +12,7 @@ regex = re.compile(
         r'(?::\d+)?' # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-logger = logging.getLogger('run.server')
+logger = logging.getLogger('url_shortener.server')
 
 
 class MyHandler(BaseHTTPRequestHandler):
@@ -43,8 +43,8 @@ class MyHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         logger.info(f"POST request from: {self.client_address}")
         if self.headers['content-type'] == 'application/x-www-form-urlencoded':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length).decode('utf-8')  # <--- Gets the data itself
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length).decode('utf-8')
             if re.match(regex, post_data):
                 logger.debug("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
                              str(self.path), str(self.headers), post_data)

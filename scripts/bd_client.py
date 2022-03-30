@@ -1,12 +1,15 @@
-import redis
 import logging
 
+import redis
 
-logger = logging.getLogger('run.db_client')
-# Создаем подключение
+logger = logging.getLogger('url_shortener.db_client')
 
 
-class RedisClient:
+class TimeoutException(Exception):
+    pass
+
+
+class DBClient:
     def __init__(self, host='localhost', port=6379, db=0, charset="utf-8", decode_responses=True):
         try:
             logger.info(f"Connecting to database {host}:{port}")
@@ -17,8 +20,7 @@ class RedisClient:
         except redis.exceptions.TimeoutError:
             logger.critical("Failed to connect to database. Check your connection settings: "
                             f"{host=}, {port=}, {db=}, {charset=}, {decode_responses=} ")
-            logger.critical("Exit application")
-            raise SystemExit
+            raise TimeoutException
 
     def __enter__(self):
         return self
@@ -27,9 +29,9 @@ class RedisClient:
         logger.info("Disconnecting from the database")
         self._r.close()
 
-    def set(self, key, value, ttl=-1):
+    def set(self, key, value, ttl=None):
         try:
-            self._r.set(key, value, ttl)
+            self._r.set(key, value, ex=ttl)
             logger.debug(f"Database entry: {key=}, {value=}, {ttl=}")
         except redis.exceptions.TimeoutError:
             logger.warning(f"Unable to write value to database. Cause: {redis.exceptions.__unicode__(self)}")

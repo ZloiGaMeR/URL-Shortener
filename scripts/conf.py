@@ -1,7 +1,7 @@
 import json
 import logging
 
-logger = logging.getLogger('run.config')
+logger = logging.getLogger('url_shortener.config')
 _default_config = {'db': {'ip': '192.168.2.100',
                           'port': 6379,
                           'index': 0,

@@ -10,9 +10,5 @@
   "server_http": {
     "ip": "127.0.0.1",
     "port": 8080
-  },
-  "logger": {
-    "filename": "Logs/log.log",
-    "level": "DEBUG"
   }
 }
