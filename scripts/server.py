@@ -29,6 +29,10 @@ class MyHandler(BaseHTTPRequestHandler):
         self.send_header(keyword, value)
         self.end_headers()
 
+    @staticmethod
+    def gen_url(length):
+        return base64.b64encode(random.randbytes(length), altchars=None).decode()
+
     def do_GET(self):
         logger.info(f"GET request from: {self.client_address}")
         logger.debug(f"request: {self.request}")
@@ -48,7 +52,7 @@ class MyHandler(BaseHTTPRequestHandler):
             if re.match(regex, post_data):
                 logger.debug("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
                              str(self.path), str(self.headers), post_data)
-                short_url = "/" + base64.b64encode(random.randbytes(6), altchars=None).decode()
+                short_url = "/" + self.gen_url(6)
                 self._bd.set(short_url, post_data, self._ttl)
                 self._set_headers(200, 'Content-type', 'text/html')
                 logger.info(f"Response to POST request: 'Your short URL: {self._host + short_url}'")
