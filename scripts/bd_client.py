@@ -11,23 +11,38 @@ class TimeoutException(Exception):
 
 class DBClient:
     def __init__(self, host='localhost', port=6379, db=0, charset="utf-8", decode_responses=True):
+        self.open_connect(host, port, db, charset, decode_responses)
+
+    def __enter__(self, host='localhost', port=6379, db=0, charset="utf-8", decode_responses=True):
+        if self._r is None:
+            self.open_connect(host, port, db, charset, decode_responses)
+        return self
+
+    def __del__(self):
+        self.close_connect()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close_connect()
+
+    @classmethod
+    def open_connect(cls, host, port, db, charset, decode_responses):
         try:
             logger.info(f"Connecting to database {host}:{port}")
             logger.debug(f"Connection parameters: {host=}, {port=}, {db=}, {charset=}, {decode_responses=}")
-            self._r = redis.StrictRedis(host=host, port=port, db=db, charset=charset, decode_responses=decode_responses)
-            if self._r.ping():
+            cls._r = redis.StrictRedis(host=host, port=port, db=db, charset=charset, decode_responses=decode_responses)
+            if cls._r.ping():
                 logger.info("Connection to database completed")
         except redis.exceptions.TimeoutError:
             logger.critical("Failed to connect to database. Check your connection settings: "
                             f"{host=}, {port=}, {db=}, {charset=}, {decode_responses=} ")
             raise TimeoutException
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    @classmethod
+    def close_connect(cls):
         logger.info("Disconnecting from the database")
-        self._r.close()
+        if cls._r is not None:
+            cls._r.close()
+            cls._r = None
 
     def set(self, key, value, ttl=None):
         try:

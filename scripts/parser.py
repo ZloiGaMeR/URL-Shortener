@@ -1,6 +1,9 @@
 import argparse
 
-version = "0.0.1"
+
+def load_version():
+    with open("./etc/version.cfg", "r") as f:
+        return f.read()
 
 
 def create_parse_args():
@@ -16,7 +19,7 @@ def create_parse_args():
     parent_group.add_argument('--version',
                               action='version',
                               help='Вывести номер версии',
-                              version=f'%(prog)s {version}')
+                              version=f'%(prog)s {load_version()}')
     parent_group.add_argument('--configuration', '-c',
                               type=argparse.FileType(mode='r'),
                               default='./etc/config.json',
