@@ -1,8 +1,8 @@
 from functools import partial
 from http.server import ThreadingHTTPServer
 
-from scripts.bd_client import DBClient, TimeoutException
 from scripts.conf import Configuration
+from scripts.db_client import DBClient, TimeoutException
 from scripts.logger import logger_init
 from scripts.parser import create_parse_args
 from scripts.server import MyHandler
