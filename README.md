@@ -7,22 +7,22 @@
 Запуск сервиса осуществляется из командной строки.
 Для этого в командной строке укажите python3 и путь до файла url_shortener.py
 Параметры запуска:
-    '--version' - Вывести номер версии',
-    '--configuration', '-c'  ПУТЬ  - Путь к файлу конфигурации сервера
+    `--version` - Вывести номер версии,
+    `--configuration`, `-c`  ПУТЬ - Путь к файлу конфигурации сервера
     Пример конфигурации располагается в файле ./etc/config.json, он же является конфигом по умолчанию.
     Если параметр не указан, сервис запустится с конфигурацией по умолчанию.
-    Logging -l -p - Изменение параметров журналирования
-        -l - параметр позволяет изменить уровень ведения журнала (по умолчанию DEBUG)
-            Возможные значения: 'CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG', 'NOTSET'
-        -p - путь до файла с логами (По умолчанию None). 
+    `Logging -l -p` - Изменение параметров журналирования
+        `-l` - параметр позволяет изменить уровень ведения журнала (по умолчанию DEBUG)
+            Возможные значения: `CRITICAL`, `ERROR`, `WARNING`, `INFO`, `DEBUG`, `NOTSET`
+        `-p` - путь до файла с логами (По умолчанию None). 
             Если параметр указан, ведётся сохранение логов в файл, в противном случае логи выводятся в консоль.
 
 Примеры запуска:
-    py.exe .\url_shortener.py - запуск сервиса с дефолтными параметрами(файл конфигурации ./etc/config.json, 
+    `py.exe .\url_shortener.py` - запуск сервиса с дефолтными параметрами(файл конфигурации ./etc/config.json, 
     журналирование в командную строку, уровень ведения журнала "DEBUG")    
-    py.exe .\url_shortener.py -c E:\GIT_Python\URL-Shortener\etc\config.json - запуск сервиса с использование 
+    `py.exe .\url_shortener.py -c E:\GIT_Python\URL-Shortener\etc\config.json` - запуск сервиса с использование 
     стороннего конфига
-    py.exe .\url_shortener.py Logging -l INFO - запуск сервиса с уровнем ведения журнала "INFO"
-    py.exe .\url_shortener.py Logging -p logs\log.log - запуск сервиса с логированием в файл logs\log.log
-    py.exe .\url_shortener.py -c E:\GIT_Python\URL-Shortener\etc\config.json Logging -l WARNING -p logs\log.log - запуск
+    `py.exe .\url_shortener.py Logging -l INFO` - запуск сервиса с уровнем ведения журнала "INFO"
+    `py.exe .\url_shortener.py Logging -p logs\log.log` - запуск сервиса с логированием в файл logs\log.log
+    `py.exe .\url_shortener.py -c E:\GIT_Python\URL-Shortener\etc\config.json Logging -l WARNING -p logs\log.log` - запуск
     сервиса с использованием сторонней конфигурации, уровнем ведения журнала "WARNING" и логированием в файл logs\log.log
